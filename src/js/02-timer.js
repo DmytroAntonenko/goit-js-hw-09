@@ -34,7 +34,7 @@ inputRef.style.fontSize = '18px';
 
 const btnRef = document.querySelector('button')
 btnRef.style.fontSize = '18px';
-btnRef.disabled = true;
+btnRef.disabled = false;
 
 const valueOfDays = document.querySelector('[data-days]');
 const valueOfHours = document.querySelector('[data-hours]');
@@ -42,6 +42,7 @@ const valueOfMinutes = document.querySelector('[data-minutes]');
 const valueOfSeconds = document.querySelector('[data-seconds]');
 
 let selectedDate = null;
+let timeInterval = null;
 
 const options = {
     enableTime: true,
@@ -51,9 +52,13 @@ const options = {
     onClose(selectedDates) {
       if(selectedDates[0] < new Date()){
         Notiflix.Notify.warning("Please choose a date in the future")
+        btnRef.disabled = true;
+        ;
     } 
+    else {
+      btnRef.disabled = false;
       selectedDate = selectedDates[0];
-      btnRef.disabled = false; 
+    }  
     },
   };
 
@@ -62,7 +67,7 @@ const options = {
 
   btnRef.addEventListener('click', startCounter);
   function startCounter() {
-   const timeInterval = setInterval(timeCounter, 1000);
+   timeInterval = setInterval(timeCounter, 1000);
   }
 
   function timeCounter() {
@@ -71,7 +76,7 @@ const options = {
   
     if (deltaTime <= 0) {
       Notiflix.Notify.success('Поздравляю! Ты досмотрел отсчет до конца.');
-      btnRef.disabled = true;
+      btnRef.disabled = false;
       clearInterval(timeInterval);
       return;
     }
